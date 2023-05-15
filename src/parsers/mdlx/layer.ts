@@ -56,7 +56,6 @@ export default class Layer extends AnimatedObject {
   flags = Flags.None;
   textureIds: number[] = [];
   flipbookAnims: { [key: number]: Animation } = {};
-  //textureId = -1;
   textureAnimationId = -1;
   coordId = 0;
   alpha = 1;
@@ -83,7 +82,6 @@ export default class Layer extends AnimatedObject {
 
     this.filterMode = stream.readUint32();
     this.flags = stream.readUint32();
-    //this.textureId = stream.readInt32();
     this.textureIds[0] = stream.readInt32();
     this.textureAnimationId = stream.readInt32();
     this.coordId = stream.readUint32();

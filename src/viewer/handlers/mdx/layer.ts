@@ -44,9 +44,6 @@ export default class Layer extends AnimatedObject {
 
     this.filterMode = filterMode;
 
-    // if (layer.textureId !== -1) {
-    //   this.textureId = layer.textureId;
-    // }
     if (layer.textureIds[textureIndex] !== -1) {
       this.textureId = layer.textureIds[textureIndex];
     }
@@ -78,12 +75,10 @@ export default class Layer extends AnimatedObject {
       }
     }
 
-    this.addVariants('KMTA', 'alpha');
-
     if(layer.flipbookAnims[textureIndex]) {
       this.animations.set(layer.flipbookAnims[textureIndex].name, createTypedSd(model, layer.flipbookAnims[textureIndex]));
     }
-    // layer.flipbookAnims[textureIndex]
+    this.addVariants('KMTA', 'alpha');
     this.addVariants('KMTF', 'textureId');
   }
 

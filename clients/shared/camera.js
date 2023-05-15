@@ -207,8 +207,6 @@ export class SimpleOrbitCamera {
     let sw = (x / w) * this.distance * aspect;
     let sh = (y / h) * this.distance;
 
-    //vec3.add(this.target, this.target, vec3.scale(vecHeap, vec3.normalize(vecHeap, vec3.set(vecHeap, dirX[0], dirX[1], 0)), sw));
-    //vec3.add(this.target, this.target, vec3.scale(vecHeap, vec3.normalize(vecHeap, vec3.set(vecHeap, dirY[0], dirY[1], 0)), sh));
     vec3.add(this.target, this.target, vec3.scale(vecHeap, vec3.normalize(vecHeap, vec3.set(vecHeap, dirX[0], dirX[1], dirX[2])), sw));
     vec3.add(this.target, this.target, vec3.scale(vecHeap, vec3.normalize(vecHeap, vec3.set(vecHeap, dirY[0], dirY[1], dirY[2])), sh));
 

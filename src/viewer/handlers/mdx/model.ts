@@ -128,11 +128,11 @@ export default class MdxModel extends Model {
 
       for (const layer of material.layers) {
         for(let i = 0; i < layer.textureIds.length; i++) {
-          const vLayer = new Layer(this, layer, layerId, i, material.priorityPlane);
+          const vLayer = new Layer(this, layer, layerId++, i, material.priorityPlane);
           layers.push(vLayer);
           this.layers.push(vLayer);
         }
-        layerId++;
+        //layerId++; //unsure if the "++" should be here or inside loop...
       }
 
       this.materials.push(new Material(this, material.shader, layers));

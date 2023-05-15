@@ -201,8 +201,8 @@ function optimizeModel(name: string, buffer: ArrayBuffer) {
 
 async function optimizeDataTransfer(dataTransfer: DataTransfer) {
   const entries = await getAllFileEntries(dataTransfer);
-  const names = [];
-  const promises = [];
+  const names: string[] = [];
+  const promises: Promise<any>[] = [];
 
   for (let entry of entries) {
     const name = entry.name;
@@ -215,7 +215,7 @@ async function optimizeDataTransfer(dataTransfer: DataTransfer) {
   }
 
   const buffers = await Promise.all(promises);
-  const optimizedBuffers = [];
+  const optimizedBuffers: (Uint8Array | undefined)[] = [];
 
   for (let i = 0, l = buffers.length; i < l; i++) {
     optimizedBuffers.push(optimizeModel(names[i], buffers[i]));

@@ -71,7 +71,7 @@ export default function createPrimitive(viewer: ModelViewer, primitive: Primitiv
 
   const layer = new MdlxLayer();
 
-  layer.textureId = 0;
+  layer.textureIds[0] = 0;
   layer.flags = layerFlags;
 
   mat.layers[0] = layer;

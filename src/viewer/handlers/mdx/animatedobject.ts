@@ -1,5 +1,6 @@
 import MdlxAnimatedObject from '../../../parsers/mdlx/animatedobject';
 import MdxModel from './model';
+import { Animation } from '../../../parsers/mdlx/animations';
 import { Sd, createTypedSd } from './sd';
 
 /**

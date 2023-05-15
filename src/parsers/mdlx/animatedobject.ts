@@ -22,6 +22,13 @@ export default class AnimatedObject {
     }
   }
 
+  readAndGetAnimation(stream: BinaryStream, name: string): Animation {
+    const animation = new animationMap[name][1]();
+
+    animation.readMdx(stream, name);
+    return animation;
+  }
+
   writeAnimations(stream: BinaryStream): void {
     for (const animation of this.animations) {
       animation.writeMdx(stream);

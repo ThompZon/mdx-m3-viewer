@@ -127,11 +127,12 @@ export default class MdxModel extends Model {
       const layers = [];
 
       for (const layer of material.layers) {
-        const vLayer = new Layer(this, layer, layerId++, material.priorityPlane);
-
-        layers.push(vLayer);
-
-        this.layers.push(vLayer);
+        for(let i = 0; i < layer.textureIds.length; i++) {
+          const vLayer = new Layer(this, layer, layerId, i, material.priorityPlane);
+          layers.push(vLayer);
+          this.layers.push(vLayer);
+        }
+        layerId++;
       }
 
       this.materials.push(new Material(this, material.shader, layers));
@@ -147,7 +148,6 @@ export default class MdxModel extends Model {
 
     if (this.hd) {
       solverParams.hd = true;
-
       // mdxHandler.loadEnv(viewer);
     }
 

@@ -121,7 +121,7 @@ class SdSequence {
   }
 }
 
-const forcedInterpMap = {
+const forcedInterpMap : { [key: string] : InterpolationType } = {
   KLAV: InterpolationType.DontInterp,
   KATV: InterpolationType.DontInterp,
   KPEV: InterpolationType.DontInterp,
@@ -138,7 +138,7 @@ const scaleDefval = vec3.fromValues(1, 1, 1);
 const alphaDefval = visibilityDefval;
 const colorDefval = translationDefval;
 
-const defVals = {
+const defVals: {[key: string] : any} = {
   // LAYS
   KMTF: floatDefval,
   KMTA: alphaDefval,

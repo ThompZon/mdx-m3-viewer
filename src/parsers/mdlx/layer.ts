@@ -1,6 +1,7 @@
 import BinaryStream from '../../common/binarystream';
 import TokenStream from './tokenstream';
 import AnimatedObject from './animatedobject';
+import { Animation } from './animations';
 
 export const enum FilterMode {
   None = 0,
@@ -53,7 +54,9 @@ function modeToString(m: FilterMode): string {
 export default class Layer extends AnimatedObject {
   filterMode = FilterMode.None;
   flags = Flags.None;
-  textureId = -1;
+  textureIds: number[] = [];
+  flipbookAnims: { [key: number]: Animation } = {};
+  //textureId = -1;
   textureAnimationId = -1;
   coordId = 0;
   alpha = 1;
@@ -80,7 +83,8 @@ export default class Layer extends AnimatedObject {
 
     this.filterMode = stream.readUint32();
     this.flags = stream.readUint32();
-    this.textureId = stream.readInt32();
+    //this.textureId = stream.readInt32();
+    this.textureIds[0] = stream.readInt32();
     this.textureAnimationId = stream.readInt32();
     this.coordId = stream.readUint32();
     this.alpha = stream.readFloat32();
@@ -92,15 +96,40 @@ export default class Layer extends AnimatedObject {
       this.fresnelOpacity = stream.readFloat32();
       this.fresnelTeamColor = stream.readFloat32();
     }
+    if(version > 1000){
+      var hdFlag = stream.readUint32();
+      var numTextures = stream.readUint32();
+      this.readV1100TextureSlots(stream, numTextures);
 
-    this.readAnimations(stream, size - (stream.index - start));
+    } else {
+      this.readAnimations(stream, size - (stream.index - start));
+    }
+
+    if((stream.index-start) < size){
+      this.readAnimations(stream, size - (stream.index - start));
+    }
   }
+
+	readV1100TextureSlots(stream: BinaryStream, numTextures: number){
+
+		for(var i = 0; i<numTextures && i<6; i++){
+      var pos = stream.index;
+			var animOrTextureId = stream.readUint32();
+			if(1024<animOrTextureId){
+        const anim = this.readAndGetAnimation(stream, "KMTF");
+        this.flipbookAnims[i] = anim;
+			} else {
+				const textureSlot = stream.readUint32();
+        this.textureIds[i] = animOrTextureId;
+			}
+		}
+	}
 
   writeMdx(stream: BinaryStream, version: number): void {
     stream.writeUint32(this.getByteLength(version));
     stream.writeUint32(this.filterMode);
     stream.writeUint32(this.flags);
-    stream.writeInt32(this.textureId);
+    stream.writeInt32(this.textureIds[0]);
     stream.writeInt32(this.textureAnimationId);
     stream.writeUint32(this.coordId);
     stream.writeFloat32(this.alpha);
@@ -135,7 +164,7 @@ export default class Layer extends AnimatedObject {
       } else if (token === 'Unlit') {
         this.flags |= Flags.Unlit;
       } else if (token === 'static TextureID') {
-        this.textureId = stream.readInt();
+        this.textureIds[0] = stream.readInt();
       } else if (token === 'TextureID') {
         this.readAnimation(stream, 'KMTF');
       } else if (token === 'TVertexAnimId') {
@@ -204,7 +233,7 @@ export default class Layer extends AnimatedObject {
     }
 
     if (!this.writeAnimation(stream, 'KMTF')) {
-      stream.writeNumberAttrib('static TextureID', this.textureId);
+      stream.writeNumberAttrib('static TextureID', this.textureIds[0]);
     }
 
     if (this.textureAnimationId !== -1) {

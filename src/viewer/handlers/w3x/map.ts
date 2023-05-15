@@ -191,7 +191,7 @@ export default class War3MapViewerMap {
       tilesetTextures.push(this.load(`${row.string('dir')}\\${row.string('file')}${texturesExt}`));
     }
 
-    const blights = {
+    const blights: { [key: string] : string } = {
       A: 'Ashen',
       B: 'Barrens',
       C: 'Felwood',

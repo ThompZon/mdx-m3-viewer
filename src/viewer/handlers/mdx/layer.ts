@@ -3,6 +3,7 @@ import MdxModel from './model';
 import AnimatedObject from './animatedobject';
 import TextureAnimation from './textureanimation';
 import { layerFilterMode } from './filtermode';
+import { Sd, createTypedSd } from './sd';
 import Shader from '../../gl/shader';
 
 /**
@@ -27,7 +28,7 @@ export default class Layer extends AnimatedObject {
   blended = false;
   textureAnimation: TextureAnimation | null = null;
 
-  constructor(model: MdxModel, layer: MdlxLayer, layerId: number, priorityPlane: number) {
+  constructor(model: MdxModel, layer: MdlxLayer, layerId: number, textureIndex: number, priorityPlane: number) {
     super(model, layer);
 
     let filterMode = layer.filterMode;
@@ -43,8 +44,11 @@ export default class Layer extends AnimatedObject {
 
     this.filterMode = filterMode;
 
-    if (layer.textureId !== -1) {
-      this.textureId = layer.textureId;
+    // if (layer.textureId !== -1) {
+    //   this.textureId = layer.textureId;
+    // }
+    if (layer.textureIds[textureIndex] !== -1) {
+      this.textureId = layer.textureIds[textureIndex];
     }
 
     this.coordId = layer.coordId;
@@ -75,6 +79,11 @@ export default class Layer extends AnimatedObject {
     }
 
     this.addVariants('KMTA', 'alpha');
+
+    if(layer.flipbookAnims[textureIndex]) {
+      this.animations.set(layer.flipbookAnims[textureIndex].name, createTypedSd(model, layer.flipbookAnims[textureIndex]));
+    }
+    // layer.flipbookAnims[textureIndex]
     this.addVariants('KMTF', 'textureId');
   }
 

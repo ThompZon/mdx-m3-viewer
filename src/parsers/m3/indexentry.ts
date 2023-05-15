@@ -22,7 +22,7 @@ import UnsupportedEntry from './unsupportedentry';
 
 
 // Mapping from entry tags, to their constructors and known version->size values.
-const tagMapping = {
+const tagMapping: { [key: string] : any } = {
   // Objects
   MD34: [Md34, { 11: 24 }],
   MODL: [ModelHeader, { 23: 784, 25: 808, 26: 820, 28: 844, 29: 856 }],

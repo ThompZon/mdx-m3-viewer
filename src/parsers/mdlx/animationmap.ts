@@ -1,7 +1,6 @@
 import { UintAnimation, FloatAnimation, Vector3Animation, Vector4Animation } from './animations';
 
-// A map from MDX animation tags to their equivalent MDL tokens, and the implementation objects.
-export default {
+const animationMap : { [key: string] : any} = {
   // Layer
   KMTF: ['TextureID', UintAnimation],
   KMTA: ['Alpha', FloatAnimation],
@@ -66,3 +65,6 @@ export default {
   KTTR: ['Translation', Vector3Animation],
   KCRL: ['Rotation', FloatAnimation],
 };
+
+// A map from MDX animation tags to their equivalent MDL tokens, and the implementation objects.
+export default animationMap;

@@ -284,7 +284,7 @@ export function getTextureIds(layer: Layer): number[] {
     }
   }
 
-  return [layer.textureId];
+  return [layer.textureIds[0]];
 }
 
 function testVertexSkinning(data: SanityTestData, vertex: number, bone: number, isHd: boolean): void {

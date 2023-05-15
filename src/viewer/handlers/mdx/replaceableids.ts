@@ -1,4 +1,4 @@
-export default {
+const replaceableIds : { [key: number] : string } = {
   1: 'TeamColor/TeamColor00',
   2: 'TeamGlow/TeamGlow00',
   11: 'Cliff/Cliff0',
@@ -11,3 +11,5 @@ export default {
   36: 'RuinsTree/RuinsTree',
   37: 'OutlandMushroomTree/MushroomTree',
 };
+
+export default replaceableIds;

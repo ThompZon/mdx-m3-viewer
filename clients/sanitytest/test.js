@@ -45,6 +45,7 @@ export default class Test {
       this.parsingError = true;
 
       tester.logger.error(`Failed to parse ${name}: ${e}. The test will attempt to run on whatever data loaded`);
+      console.log(e);
     }
 
     this.results = new TestResults(this.parser);

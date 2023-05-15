@@ -6,7 +6,7 @@ import { M3StandardMaterial, STANDARD_MATERIAL_OFFSET } from './standardmaterial
 import M3Model from './model';
 import M3Texture from './texture';
 
-const layerTypeToTextureUnit = {
+const layerTypeToTextureUnit: { [key: string]: number} = {
   diffuse: 1,
   decal: 2,
   specular: 3,

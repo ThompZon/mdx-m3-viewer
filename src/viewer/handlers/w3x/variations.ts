@@ -1,4 +1,8 @@
-const cliffVariations = {
+type StringlyIndexableNumberObject = {
+  [key: string] : number
+}
+
+const cliffVariations: StringlyIndexableNumberObject = {
   AAAB: 1,
   AAAC: 1,
   AABA: 1,
@@ -65,7 +69,7 @@ const cliffVariations = {
   CCCA: 1,
 };
 
-const cityCliffVariations = {
+const cityCliffVariations: StringlyIndexableNumberObject = {
   AAAB: 2,
   AAAC: 1,
   AABA: 1,

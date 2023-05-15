@@ -22,25 +22,33 @@ export default class Material {
    */
   shader = '';
   layers: Layer[] = [];
+  realSize: number = 20;
 
   readMdx(stream: BinaryStream, version: number): void {
-    stream.readUint32(); // Don't care about the size.
+    const start = stream.index;
+    this.realSize = stream.readUint32(); // Don't care about the size.
 
     this.priorityPlane = stream.readInt32();
     this.flags = stream.readUint32();
 
-    if (version > 800) {
+    if (version > 800 && version < 1100) {
       this.shader = stream.read(80);
+    } else {
+      // this.shader = "Shader_SD_FixedFunction";
+      //this.shader = "Shader_HD_DefaultUnit";
     }
 
     stream.skip(4); // LAYS
 
-    for (let i = 0, l = stream.readUint32(); i < l; i++) {
+    const layerCount = stream.readUint32();
+    for (let i = 0, l = layerCount; i < l; i++) {
       const layer = new Layer();
-
       layer.readMdx(stream, version);
-
       this.layers.push(layer);
+    }
+
+    if(1000 < version && 1 < this.layers[0].textureIds.length){
+      this.shader = "Shader_HD_DefaultUnit";
     }
   }
 
@@ -49,7 +57,7 @@ export default class Material {
     stream.writeInt32(this.priorityPlane);
     stream.writeUint32(this.flags);
 
-    if (version > 800) {
+    if (version > 800 && version < 1100) {
       stream.skip(80 - stream.write(this.shader));
     }
 
@@ -132,7 +140,7 @@ export default class Material {
   getByteLength(version: number): number {
     let size = 20;
 
-    if (version > 800) {
+    if (version > 800 && version < 1100) {
       size += 80;
     }
 
@@ -140,6 +148,7 @@ export default class Material {
       size += layer.getByteLength(version);
     }
 
-    return size;
+    // return size;
+    return this.realSize;
   }
 }

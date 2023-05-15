@@ -21,7 +21,7 @@ import testTracks from './tracks';
 export function testHeader(data: SanityTestData): void {
   const version = data.model.version;
 
-  if (version !== 800 && version !== 900 && version !== 1000) {
+  if (version !== 800 && version !== 900 && version !== 1000 && version !== 1100) {
     data.addWarning(`Unknown version: ${version}`);
   }
 
